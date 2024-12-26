@@ -1,39 +1,73 @@
-import preactLogo from '../../assets/preact.svg';
-import './style.css';
+import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
+import LightTimer from '../../components/LightTimer/LightTimer';
+import { Loading } from '../../components/Loading/Loading';
+import NextState from '../../components/NextState/NextState';
+import Status from '../../components/Status/Status';
+import { State } from '../../state/svtilo-app-state';
+import { Utils } from '../../utils/utils';
+import './style.less';
+import { useEffect } from 'react';
 
 export function Home() {
-	return (
-		<div class="home">
-			<a href="https://preactjs.com" target="_blank">
-				<img src={preactLogo} alt="Preact logo" height="160" width="160" />
-			</a>
-			<h1>Get Started building Vite-powered Preact Apps </h1>
-			<section>
-				<Resource
-					title="Learn Preact"
-					description="If you're new to Preact, try the interactive tutorial to learn important concepts"
-					href="https://preactjs.com/tutorial"
-				/>
-				<Resource
-					title="Differences to React"
-					description="If you're coming from React, you may want to check out our docs to see where Preact differs"
-					href="https://preactjs.com/guide/v10/differences-to-react"
-				/>
-				<Resource
-					title="Learn Vite"
-					description="To learn more about Vite and how you can customize it to fit your needs, take a look at their excellent documentation"
-					href="https://vitejs.dev"
-				/>
-			</section>
-		</div>
-	);
-}
+  const fetchData = Utils.debounce_leading(async () => {
+    State.value = { ...State.value, loading: true, error: null };
 
-function Resource(props) {
-	return (
-		<a href={props.href} target="_blank" class="resource">
-			<h2>{props.title}</h2>
-			<p>{props.description}</p>
-		</a>
-	);
+    try {
+      const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH);
+      const data = await response.json();
+
+      if (data?.timestamp != null) {
+        State.value = { ...State.value, data, loading: false, error: null };
+      } else {
+        throw new Error('Error fetching data');
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      State.value = { ...State.value, loading: false, error: 'Виникла помилка. Спробуйте оновити сторінку.' };
+    }
+  });
+
+  useEffect(() => {
+    fetchData();
+
+    const handleFocus = () => {
+      fetchData();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        fetchData();
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  const { data, loading, error } = State.value;
+
+  return (
+    <div class="home">
+      {loading && <Loading />}
+      {error && <ErrorMessage message={error} />}
+      {!error && data?.timestamp != null && (
+        <>
+          <section>
+            <Status />
+          </section>
+          <section>
+            <NextState />
+          </section>
+          <section>
+            <LightTimer />
+          </section>
+        </>
+      )}
+    </div>
+  );
 }

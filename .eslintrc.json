@@ -1,0 +1,21 @@
+{
+  "extends": ["standard", "prettier", "preact"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "prettier", "eslint-plugin-n", "eslint-plugin-prettier"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "no-new": "off",
+    "array-callback-return": ["error", { "allowImplicit": true }],
+    "comma-dangle": ["error", {
+      "arrays": "only-multiline",
+      "objects": "only-multiline",
+      "imports": "never",
+      "exports": "never",
+      "functions": "only-multiline"
+  }]
+  }
+}
