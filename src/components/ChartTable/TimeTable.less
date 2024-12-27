@@ -1,0 +1,49 @@
+.time-table {
+  width: 100%;
+  box-shadow: 0 0.0625rem 0.375rem 0 rgba(0, 0, 0, 0.1);
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+    font-size: .7rem;
+    width: 100%;
+  }
+
+  td,
+  th {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #aaa;
+    white-space: nowrap;
+  }
+
+  td:first-child {
+    text-align: center;
+  }
+
+  td:last-child {
+    text-align: center;
+  }
+
+  .filled {
+    background-color: #333;
+  }
+}
+
+@media (max-width: 768px) {
+  .time-table {
+    table {
+      font-size: .43rem;
+      line-height: .4rem;
+    }
+
+    td,
+    th {
+      height: 10px;
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import { TimeTable } from '../../components/ChartTable/TimeTable';
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import LightTimer from '../../components/LightTimer/LightTimer';
 import { Loading } from '../../components/Loading/Loading';
@@ -69,6 +70,9 @@ export function Home() {
           </section>
           <section>
             <StatTable />
+          </section>
+          <section class="chart-table">
+            <TimeTable />
           </section>
         </>
       )}
