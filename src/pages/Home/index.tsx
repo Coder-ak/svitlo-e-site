@@ -2,6 +2,7 @@ import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import LightTimer from '../../components/LightTimer/LightTimer';
 import { Loading } from '../../components/Loading/Loading';
 import NextState from '../../components/NextState/NextState';
+import StatTable from '../../components/StatTable/StatTable';
 import Status from '../../components/Status/Status';
 import { State } from '../../state/svtilo-app-state';
 import { Utils } from '../../utils/utils';
@@ -65,6 +66,9 @@ export function Home() {
           </section>
           <section>
             <LightTimer />
+          </section>
+          <section>
+            <StatTable />
           </section>
         </>
       )}
