@@ -60,7 +60,7 @@ export function Home() {
   const { data, loading, error } = State.value;
 
   return (
-    <div class="home">
+    <>
       {loading && <Loading />}
       {error && <ErrorMessage message={error} />}
       {!error && data?.timestamp != null && (
@@ -84,6 +84,6 @@ export function Home() {
           </Swiper>
         </>
       )}
-    </div>
+    </>
   );
 }
