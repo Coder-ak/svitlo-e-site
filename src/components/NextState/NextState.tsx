@@ -1,7 +1,7 @@
 import { FunctionalComponent } from 'preact';
 import { State } from '../../state/svtilo-app-state';
 
-const NextState: FunctionalComponent = () => {
+export const NextState: FunctionalComponent = () => {
   const {
     data: { light, nextState, timestamp },
   } = State.value;
@@ -28,5 +28,3 @@ const NextState: FunctionalComponent = () => {
 
   return <span class="next-state">{message}</span>;
 };
-
-export default NextState;

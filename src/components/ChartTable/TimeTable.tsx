@@ -10,12 +10,11 @@ interface IntervalData {
 }
 
 export const TimeTable = () => {
-  // const [data, setData] = useState<SvitloData[]>([]);
   const [groupedData, setData] = useState<Record<string, IntervalData[]>>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH + '?limit=130');
+      const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH + '?limit=88');
       const data = await response.json();
 
       const intervals = createIntervals(data);
@@ -65,7 +64,7 @@ export const TimeTable = () => {
       groupedData[dayKey].push(item);
     });
 
-    const sortedData = Object.keys(groupedData)
+    return Object.keys(groupedData)
       .sort((a, b) => {
         const dateA = parse(a, 'EEE, dd/MM', new Date());
         const dateB = parse(b, 'EEE, dd/MM', new Date());
@@ -75,8 +74,6 @@ export const TimeTable = () => {
         acc[key] = groupedData[key];
         return acc;
       }, {});
-
-    return sortedData;
   };
 
   return (

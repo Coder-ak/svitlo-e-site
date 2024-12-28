@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
           math: 'always',
           relativeUrls: true,
           javascriptEnabled: true,
+          additionalData: `@import "./src/variables.less";`,
         },
       },
     },

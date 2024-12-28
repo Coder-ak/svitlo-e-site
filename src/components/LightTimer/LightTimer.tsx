@@ -4,7 +4,7 @@ import { useEffect, useCallback } from 'preact/hooks';
 import { Utils } from '../../utils/utils';
 import { State } from '../../state/svtilo-app-state';
 
-const LightTimer: FunctionalComponent = () => {
+export const LightTimer: FunctionalComponent = () => {
   const {
     data: { light, timestamp },
   } = State.value;
@@ -61,5 +61,3 @@ const LightTimer: FunctionalComponent = () => {
     </div>
   );
 };
-
-export default LightTimer;

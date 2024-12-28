@@ -1,14 +1,20 @@
-import { TimeTable } from '../../components/ChartTable/TimeTable';
+import { useEffect } from 'preact/hooks';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
-import LightTimer from '../../components/LightTimer/LightTimer';
+import { LightTimer } from '../../components/LightTimer/LightTimer';
+import { TimeTable } from '../../components/ChartTable/TimeTable';
+import { NextState } from '../../components/NextState/NextState';
+import { StatTable } from '../../components/StatTable/StatTable';
 import { Loading } from '../../components/Loading/Loading';
-import NextState from '../../components/NextState/NextState';
-import StatTable from '../../components/StatTable/StatTable';
-import Status from '../../components/Status/Status';
+import { Status } from '../../components/Status/Status';
 import { State } from '../../state/svtilo-app-state';
 import { Utils } from '../../utils/utils';
+
 import './style.less';
-import { useEffect } from 'react';
+import 'swiper/less';
+import 'swiper/less/pagination';
 
 export function Home() {
   const fetchData = Utils.debounce_leading(async () => {
@@ -68,12 +74,14 @@ export function Home() {
           <section>
             <LightTimer />
           </section>
-          <section>
-            <StatTable />
-          </section>
-          <section class="chart-table">
-            <TimeTable />
-          </section>
+          <Swiper slidesPerView={'auto'} pagination={{ clickable: true }} modules={[Pagination]} className="stats-swiper">
+            <SwiperSlide>
+              <StatTable />
+            </SwiperSlide>
+            <SwiperSlide>
+              <TimeTable />
+            </SwiperSlide>
+          </Swiper>
         </>
       )}
     </div>
