@@ -13,8 +13,6 @@ import { State } from '../../state/svtilo-app-state';
 import { Utils } from '../../utils/utils';
 
 import './style.less';
-import 'swiper/less';
-import 'swiper/less/pagination';
 
 export function Home() {
   const fetchData = Utils.debounce_leading(async () => {
