@@ -14,12 +14,20 @@ export const TimeTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH + '?limit=88');
-      const data = await response.json();
+      try {
+        const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH + '?days=62');
+        const data = await response.json();
 
-      const intervals = createIntervals(data);
-      const chartData = createChart(intervals);
-      setData(chartData);
+        if (!(data instanceof Array)) {
+          throw new Error('Data is not an array');
+        }
+
+        const intervals = createIntervals(data);
+        const chartData = createChart(intervals);
+        setData(chartData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
     fetchData();
   }, []);
