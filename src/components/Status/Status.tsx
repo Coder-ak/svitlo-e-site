@@ -1,6 +1,6 @@
-import './status.less';
 import { Utils } from '../../utils/utils';
 import { State } from '../../state/svtilo-app-state';
+import './Status.less';
 
 export const Status = () => {
   const { data, error } = State.value;
