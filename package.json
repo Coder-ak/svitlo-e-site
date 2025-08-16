@@ -7,21 +7,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@preact/signals": "^2.0.0",
+    "@preact/signals": "^2.2.1",
     "date-fns": "^4.1.0",
-    "preact": "^10.25.3",
-    "preact-iso": "^2.8.1",
-    "preact-render-to-string": "^6.5.12",
+    "preact": "^10.27.0",
+    "preact-iso": "^2.9.2",
+    "preact-render-to-string": "^6.5.13",
     "pulltorefreshjs": "^0.1.22",
-    "swiper": "^11.1.15"
+    "swiper": "^11.2.10"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.9.3",
-    "@types/node": "^22.10.2",
-    "eslint": "^8.57.1",
-    "eslint-config-preact": "^1.5.0",
-    "less": "^4.2.1",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.6"
+    "@preact/preset-vite": "^2.10.2",
+    "eslint": "^9.33.0",
+    "eslint-config-preact": "^2.0.0",
+    "less": "^4.4.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.2"
   }
 }
