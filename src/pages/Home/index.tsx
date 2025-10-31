@@ -56,6 +56,7 @@ export function Home() {
   }, []);
 
   const { data, loading, error } = State.value;
+  const initialSlide = location.hash === '#chart' ? 1 : 0;
 
   return (
     <>
@@ -72,7 +73,13 @@ export function Home() {
           <section>
             <LightTimer />
           </section>
-          <Swiper slidesPerView={'auto'} pagination={{ clickable: true }} modules={[Pagination]} className="stats-swiper">
+          <Swiper
+            initialSlide={initialSlide}
+            slidesPerView={'auto'}
+            pagination={{ clickable: true }}
+            modules={[Pagination]}
+            className="stats-swiper"
+          >
             <SwiperSlide>
               <StatTable />
             </SwiperSlide>
