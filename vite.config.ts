@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
     },
     ...(development && {
       server: {
+        allowedHosts: [env.VITE_ALLOWED_HOST],
         proxy: {
           [env.VITE_API_PATH]: {
             target: env.VITE_PROXY_URL,

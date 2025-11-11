@@ -7,6 +7,7 @@ function createAppState(): Signal<SvitloAppState> {
     timestamp: null,
     light: null,
     nextState: null,
+    scheduleImg: null,
   };
 
   const state = signal<SvitloAppState>({

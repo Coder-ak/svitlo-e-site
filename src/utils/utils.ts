@@ -78,4 +78,13 @@ export class Utils {
       }, timeout);
     };
   }
+
+  static async getScheduleImg(): Promise<boolean> {
+    try {
+      const res = await fetch('/assets/schedule.jpeg', { method: 'HEAD' });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
 }

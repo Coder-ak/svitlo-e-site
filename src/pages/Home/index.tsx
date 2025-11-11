@@ -22,8 +22,10 @@ export function Home() {
       const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH);
       const data = await response.json();
 
+      const scheduleImg = await Utils.getScheduleImg();
+
       if (data?.timestamp != null) {
-        State.value = { ...State.value, data, loading: false, error: null };
+        State.value = { ...State.value, data, scheduleImg, loading: false, error: null };
       } else {
         throw new Error('Error fetching data');
       }
@@ -55,8 +57,9 @@ export function Home() {
     };
   }, []);
 
-  const { data, loading, error } = State.value;
-  const initialSlide = location.hash === '#chart' ? 1 : 0;
+  const { data, scheduleImg, loading, error } = State.value;
+  const chartSlideId = scheduleImg ? 2 : 1;
+  const initialSlide = location.hash === '#chart' ? chartSlideId : 0;
 
   return (
     <>
@@ -80,6 +83,11 @@ export function Home() {
             modules={[Pagination]}
             className="stats-swiper"
           >
+            {scheduleImg && (
+              <SwiperSlide>
+                <img className="schedule-img" src="assets/schedule.jpeg" alt="Графік вимкненнь" />
+              </SwiperSlide>
+            )}
             <SwiperSlide>
               <StatTable />
             </SwiperSlide>
