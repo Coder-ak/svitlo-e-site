@@ -85,7 +85,7 @@ export function Home() {
           >
             {scheduleImg && (
               <SwiperSlide>
-                <img className="schedule-img" src="assets/schedule.jpeg" alt="Графік вимкненнь" />
+                <img className="schedule-img" src={`assets/schedule.jpeg?${Math.random()}`} alt="Графік вимкненнь" />
               </SwiperSlide>
             )}
             <SwiperSlide>

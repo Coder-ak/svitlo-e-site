@@ -1,5 +1,16 @@
 import { useEffect, useState } from 'preact/hooks';
-import { format, setHours, isWithinInterval, roundToNearestMinutes, addMinutes, endOfHour, parse, setMinutes } from 'date-fns';
+import {
+  format,
+  setHours,
+  isWithinInterval,
+  roundToNearestMinutes,
+  addMinutes,
+  endOfHour,
+  parse,
+  setMinutes,
+  startOfDay,
+  addDays,
+} from 'date-fns';
 import { SvitloData } from '../../interfaces/svitlo-data';
 import './TimeTable.less';
 
@@ -55,21 +66,26 @@ export const TimeTable = () => {
 
   const createChart = (data: IntervalData[]): Record<string, IntervalData[]> => {
     const groupedData: Record<string, IntervalData[]> = {};
+
     data.forEach((item) => {
-      const dayKey = format(item.startTime, 'EEE, dd/MM');
-      const dataKeyEnd = format(item.endTime, 'EEE, dd/MM');
-      if (!groupedData[dayKey]) {
-        groupedData[dayKey] = [];
-      }
+      // skip intervals where light is ON
+      if (item.light) return;
 
-      if (dataKeyEnd !== dayKey) {
-        if (!groupedData[dataKeyEnd]) {
-          groupedData[dataKeyEnd] = [];
+      // Walk through all days between start and end (inclusive)
+      let day = startOfDay(item.startTime);
+      const lastDay = startOfDay(item.endTime);
+
+      while (day.getTime() <= lastDay.getTime()) {
+        const dayKey = format(day, 'EEE, dd/MM');
+
+        if (!groupedData[dayKey]) {
+          groupedData[dayKey] = [];
         }
-        groupedData[dataKeyEnd].push(item);
-      }
 
-      groupedData[dayKey].push(item);
+        groupedData[dayKey].push(item);
+
+        day = addDays(day, 1);
+      }
     });
 
     return Object.keys(groupedData)
@@ -78,10 +94,13 @@ export const TimeTable = () => {
         const dateB = parse(b, 'EEE, dd/MM', new Date());
         return dateB.getTime() - dateA.getTime();
       })
-      .reduce((acc, key) => {
-        acc[key] = groupedData[key];
-        return acc;
-      }, {});
+      .reduce(
+        (acc, key) => {
+          acc[key] = groupedData[key];
+          return acc;
+        },
+        {} as Record<string, IntervalData[]>
+      );
   };
 
   return (
@@ -102,14 +121,24 @@ export const TimeTable = () => {
               const dayData = groupedData[dayKey];
               let totalFalseHours = 0;
 
+              // Parse the row’s date from the key, e.g. 'Mon, 15/12'
+              const currentDay = parse(dayKey, 'EEE, dd/MM', new Date());
+
               return (
                 <tr key={dayKey}>
                   <td>{dayKey}</td>
                   {[...Array(24)].map((_, hour) => {
-                    const currentHour = setHours(setMinutes(dayData[0].startTime, 1), hour);
+                    // Build a timestamp for THIS day at `hour:01`
+                    const currentHour = setHours(setMinutes(currentDay, 1), hour);
 
                     const isLightOff = dayData.some((item) => {
-                      return isWithinInterval(currentHour, { start: item.startTime, end: item.endTime }) && !item.light;
+                      return (
+                        !item.light &&
+                        isWithinInterval(currentHour, {
+                          start: item.startTime,
+                          end: item.endTime,
+                        })
+                      );
                     });
 
                     if (isLightOff) {
