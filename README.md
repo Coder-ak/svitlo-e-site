@@ -37,7 +37,8 @@ Create a `.env.development.local` file in the root of the project and add the fo
 
 ```env
 VITE_PROXY_URL="http://localhost:3004"
-VITE_API_URL="http://localhost:5173"
+VITE_ALLOWED_HOST="dev.svitloe.coderak.net"
+VITE_API_URL="http://$VITE_ALLOWED_HOST"
 VITE_API_PATH="/api/v1/light-bot"
 ```
 
