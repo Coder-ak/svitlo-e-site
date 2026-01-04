@@ -10,6 +10,8 @@ import {
   setMinutes,
   startOfDay,
   addDays,
+  compareDesc,
+  parseISO,
 } from 'date-fns';
 import { SvitloData } from '../../interfaces/svitlo-data';
 import './TimeTable.less';
@@ -76,7 +78,7 @@ export const TimeTable = () => {
       const lastDay = startOfDay(item.endTime);
 
       while (day.getTime() <= lastDay.getTime()) {
-        const dayKey = format(day, 'EEE, dd/MM');
+        const dayKey = format(day, 'yyyy-MM-dd');
 
         if (!groupedData[dayKey]) {
           groupedData[dayKey] = [];
@@ -89,11 +91,7 @@ export const TimeTable = () => {
     });
 
     return Object.keys(groupedData)
-      .sort((a, b) => {
-        const dateA = parse(a, 'EEE, dd/MM', new Date());
-        const dateB = parse(b, 'EEE, dd/MM', new Date());
-        return dateB.getTime() - dateA.getTime();
-      })
+      .sort((a, b) => compareDesc(parseISO(a), parseISO(b)))
       .reduce(
         (acc, key) => {
           acc[key] = groupedData[key];
@@ -122,11 +120,12 @@ export const TimeTable = () => {
               let totalFalseHours = 0;
 
               // Parse the row’s date from the key, e.g. 'Mon, 15/12'
-              const currentDay = parse(dayKey, 'EEE, dd/MM', new Date());
+              const currentDay = parseISO(dayKey);
+              const label = format(currentDay, 'EEE, dd/MM');
 
               return (
                 <tr key={dayKey}>
-                  <td>{dayKey}</td>
+                  <td>{label}</td>
                   {[...Array(24)].map((_, hour) => {
                     // Build a timestamp for THIS day at `hour:01`
                     const currentHour = setHours(setMinutes(currentDay, 1), hour);
