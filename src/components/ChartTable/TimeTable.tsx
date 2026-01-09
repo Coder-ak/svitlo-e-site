@@ -15,6 +15,7 @@ import {
 } from 'date-fns';
 import { SvitloData } from '../../interfaces/svitlo-data';
 import './TimeTable.less';
+import { Utils } from '../../utils/utils';
 
 interface IntervalData {
   startTime: Date;
@@ -27,8 +28,9 @@ export const TimeTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const area = Utils.getAreaFromQuery();
       try {
-        const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH + '?days=62');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_API_PATH}?days=62${area ? '&' + area : ''}`);
         const data = await response.json();
 
         if (!(data instanceof Array)) {

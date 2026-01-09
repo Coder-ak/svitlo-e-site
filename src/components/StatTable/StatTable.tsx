@@ -8,8 +8,9 @@ export const StatTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const area = Utils.getAreaFromQuery();
       try {
-        const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH + '?limit=10');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_API_PATH}?limit=10${area ? '&' + area : ''}`);
         tableData.value = await response.json();
       } catch (error) {
         console.error(error);

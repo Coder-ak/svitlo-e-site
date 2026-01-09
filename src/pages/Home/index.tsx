@@ -17,9 +17,10 @@ import './style.less';
 export function Home() {
   const fetchData = Utils.debounce_leading(async () => {
     State.value = { ...State.value, loading: true, error: null };
+    const area = Utils.getAreaFromQuery();
 
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL + import.meta.env.VITE_API_PATH);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}${import.meta.env.VITE_API_PATH}${area ? '?' + area : ''}`);
       const data = await response.json();
 
       const scheduleImg = await Utils.getScheduleImg();

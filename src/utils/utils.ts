@@ -87,4 +87,11 @@ export class Utils {
       return false;
     }
   }
+
+  static getAreaFromQuery(): string | null {
+    const params = new URLSearchParams(window.location.search);
+    const area = params.get('area');
+
+    return area ? `area=${Number(area)}` : null;
+  }
 }
